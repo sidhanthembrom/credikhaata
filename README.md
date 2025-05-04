@@ -1,24 +1,25 @@
-Credikhaata -
+Credikhaata - Loan Tracker for Shopkeepers
 
-- Build a backend which will help local and small business owners to keep a record of goods that they have sold to known customers on credit.
-- This will help the storeowners keep the records all in digital form.
-- It used a database which is controlled by SQLite and has 4 tables in it namely - user, customers, loans, repayments.
+- It is a backend service designed to help local and small business owners track goods sold on credit. It provides an easy-to-use API to manage customers, loans, repayments, and overdue tracking — all stored in a lightweight SQLite database.
+- It uses a database which is controlled by SQLite and has 4 tables in it namely - user, customers, loans, repayments.
+
+Database Schema -
+
 - Visual representation -
   -> A user will have multiple customers.
   -> A customer will have multiple loans.
   -> A loan will have multiple repayments.
-- LOGIN DETAILS -
-  -> email - user@example.com
-  -> password - password123
 - I already have some dummy data present in the database.
 - All user-routes are user-scoped and used a middleWare for authenticating token.
-- For any more information, please see the schema of the tables in the database.
 
-To run the project locally :-
+Features :-
 
-- download the project from github
-- npm install
-- node index.js
+- User registration and login with JWT-based authentication
+- Secure password hashing with bcrypt
+- Add, edit, and delete customers
+- Create and view loans with due dates and statuses
+- Record partial or full repayments
+- Track loan summaries and overdue reports
 
 Dependecies Used :-
 
@@ -32,7 +33,7 @@ Dependecies Used :-
 - sqlite3
 - validator
 
-APIs Endpoints and their functionality -
+API Endpoints and their functionality -
 
 - "/register" -
   -> POST method.
@@ -107,6 +108,11 @@ APIs Endpoints and their functionality -
   -> Error Response - "Internal Server Error"
 
 NOTE :-
+-> LOGIN DETAILS -
+
+- email - user@example.com
+- password - password123
+
 -> createSuccessResponse(), createErrorResponse() - These two functions have been created inorder to make the responses and error handling efficient and standardize.
 
 -> validateCustomer(), loanValidator() - These are created to validate data and store the errors in an array and return all the errors at the end.
