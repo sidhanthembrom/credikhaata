@@ -411,7 +411,9 @@ app.post("/loans", authenticateToken, async (req, res) => {
   try {
     const errors = loanValidator(req.body);
     if (errors.length > 0) {
-      return res.status(400).json({ errors });
+      return res
+        .status(400)
+        .json(createErrorResponse("Validation failed", errors));
     }
 
     // user-scope
@@ -429,8 +431,8 @@ app.post("/loans", authenticateToken, async (req, res) => {
     }
 
     const query = `
-        INSERT INTO loans (customerId, itemDesc, amount, issueDate, dueDate, frequency, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO loans (customerId, itemDesc, amount, issueDate, dueDate, frequency, status, balance)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
       `;
     await db.run(query, [
       customerId,
@@ -440,6 +442,7 @@ app.post("/loans", authenticateToken, async (req, res) => {
       dueDate,
       frequency,
       status,
+      amount,
     ]);
     res.status(200).json(createSuccessResponse("Loan created successfully"));
   } catch (error) {

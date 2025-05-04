@@ -1,7 +1,14 @@
 Credikhaata - Loan Tracker for Shopkeepers
 
 - It is a backend service designed to help local and small business owners track goods sold on credit. It provides an easy-to-use API to manage customers, loans, repayments, and overdue tracking — all stored in a lightweight SQLite database.
-- It uses a database which is controlled by SQLite and has 4 tables in it namely - user, customers, loans, repayments.
+- It uses a database which is accessed by SQLite and has 4 tables in it namely - user, customers, loans, repayments.
+
+To run the project locally :-
+
+- git clone https://github.com/sidhanthembrom/credikhaata.git
+- cd credikhaata
+- npm install
+- node index.js
 
 Database Schema -
 
@@ -41,23 +48,39 @@ API Endpoints and their functionality -
   -> Checks the email if taken, creates a hash password via bcrypt.hash() and stores it in the user table.
   -> Successs Response - "User created successfully"
   -> Error Response - "Internal Server Error"
+  -> DEMO API CALL -
+  {
+  "email": "user@example.com",
+  "password": "password123"
+  }
 
 - "/login" -
   -> POST method.
   -> It helps the user (shopkeeper) to login via email and password.
   -> Checks whether the email exists, checks the password via bcrypt.compare() from the user table.
   -> Generates a JWT Token (token) via jwt.sign() which is valid for 24 hours.
-  -> req.body - email (TEXT), password (TEXT)
   -> Successs Response - JWT token generation
   -> Error Response - "Internal Server Error"
+  -> DEMO API CALL -
+  {
+  "email": "user@example.com",
+  "password": "password123"
+  }
 
 - "/add" -
   -> POST method
   -> The data is being validated by validateCustomer().
   -> This API is used to add the customer to the customers table.
-  -> req.body - name (TEXT), phone (TEXT), address(TEXT), trustScore (INTEGER), creditLimit (REAL)
   -> Successs Response - "Customer added successfully"
   -> Error Response - "Internal Server Error"
+  -> DEMO API CALL -
+  {
+  "name": "Ravi Kumar",
+  "phone": "9876543210",
+  "address": "Bhubaneswar, Odisha",
+  "trustScore": 8,
+  "creditLimit": 20000
+  }
 
 - "/customer/:id" -
   -> PUT method.
@@ -65,6 +88,14 @@ API Endpoints and their functionality -
   -> This API is used to edit the details of the customers.
   -> Successs Response - "Customer updated successfully"
   -> Error Response - "Internal Server Error"
+  -> DEMO API CALL -
+  {
+  "name": "Ravi Kumar",
+  "phone": "9876543210",
+  "address": "Bhubaneswar, Odisha",
+  "trustScore": 8,
+  "creditLimit": 20000
+  }
 
 - "/customer/:id" -
   -> DELETE method.
@@ -75,9 +106,19 @@ API Endpoints and their functionality -
 - "/loans" -
   -> POST method.
   -> This API is used to create new loans by making a query through SQL and keep it in loan table.
-  -> req.body - customerId (INTEGER), itemDesc (TEXT), amount (INTEGER), issueDate(TEXT), dueDate (TEXT), frequency (TEXT), status(TEXT)
   -> Successs Response - "Loan created successfully"
   -> Error Response - "Internal Server Error"
+  -> DEMO API CALL -
+  {
+  "customerId": 1,
+  "itemDesc": "Mobile Phone",
+  "amount": 15000,
+  "issueDate": "2025-05-05",
+  "dueDate": "2025-08-05",
+  "frequency": "monthly",
+  "status": "pending",
+  "balance": 15000
+  }
 
 - "/loans" -
   -> GET method.
@@ -90,9 +131,14 @@ API Endpoints and their functionality -
   -> POST method
   -> This API is used to record a repayment of a loan as in repayments table, track partial payments.
   -> Updates the status according to the repayment and the balance is dynamically calculated and kept in the loan table.
-  -> req.body - loanId (INTEGER), amount (INTEGER), date(TEXT)
   -> Successs Response - "Payment recorded successfully"
   -> Error Response - "Internal Server Error"
+  -> DEMO API CALL -
+  {
+  "loanId" : 1,
+  "amount" : 5000,
+  "date" : "2024-04-10"
+  }
 
 - "/summary" -
   -> GET method.
