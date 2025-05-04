@@ -629,6 +629,7 @@ app.get("/summary", authenticateToken, async (req, res) => {
 // list of customers with overdue loans
 app.get("/overdue", authenticateToken, async (req, res) => {
   const today = format(new Date(), "yyyy-MM-dd");
+  const userId = req.user.id;
 
   try {
     const query = `
@@ -640,10 +641,12 @@ app.get("/overdue", authenticateToken, async (req, res) => {
       loans JOIN customers ON
       customers.id = loans.customerId
     WHERE
+      customers.userId = ? AND
+      loans.status = 'pending' AND
       loans.balance > 0 AND
       loans.dueDate < ?;
   `;
-    const dbResponse = await db.all(query, [today]);
+    const dbResponse = await db.all(query, [userId, today]);
     return res
       .status(200)
       .json(
