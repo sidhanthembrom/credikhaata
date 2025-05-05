@@ -84,11 +84,6 @@ function authenticateToken(req, res, next) {
 function validateCustomer(data) {
   const errors = [];
 
-  // validating userId
-  if (!validator.isInt(String(data.userId))) {
-    errors.push({ field: "userId", message: "userId must be an integer" });
-  }
-
   // validating name
   if (validator.isEmpty(data.name || "")) {
     errors.push({ field: "name", message: "Name is required" });
